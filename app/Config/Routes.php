@@ -13,3 +13,11 @@ $routes->get('/forum/create', 'Forum::create');
 $routes->post('/forum/simpan', 'Forum::simpan');
 $routes->get('/anggota', 'Anggota::index');
 $routes->get('/tentang', 'Tentang::index');
+
+// register
+$routes->get('/register', 'RegisterController::index');
+$routes->post('/register/store', 'RegisterController::store');
+
+$routes->get('register', 'Auth::register');
+$routes->post('register/save', 'Auth::save');
+$routes->get('anggota', 'Anggota::index');

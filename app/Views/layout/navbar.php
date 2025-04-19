@@ -27,7 +27,7 @@
       <!-- End Dark/Light Mode Switch -->
       <div class="d-flex align-items-center">
         <button id="btn-login" class="btn btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#login">Login</button>
-        <button id="btn-register" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#register">Daftar</button>
+        <a id="btn-register" class="btn btn-secondary" href="<?= base_url('register') ?>">Daftar</a>
       </div>
     </div>
   </div>

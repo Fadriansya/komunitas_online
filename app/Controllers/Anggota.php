@@ -2,10 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
+
 class Anggota extends BaseController
 {
-  public function index(): string
+  public function index()
   {
-    return view('anggota');
+    $userModel = new UserModel();
+    $data['users'] = $userModel->findAll();
+    return view('anggota', $data);
   }
 }

@@ -1,61 +1,38 @@
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('content') ?>
-<h2 class="mb-4">Anggota Komunitas</h2>
-<div class="row  justify-content-md-center mb-1 ">
-  <div class="col-4 mb-4">
-    <div class="card text-bg-dark border-secondary">
-      <div class="card-body text-center">
-        <img src="<?= base_url('assets/img/user-default.png') ?>" class="rounded-circle" width="80" alt="">
-        <h6 class="mb-0">Aditya</h6>
-        <small class="mb-0">Ketua</small>
-      </div>
+
+<div class="container mt-5">
+  <!-- Pesan jika ada flash data sukses -->
+  <?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success">
+      <?= session()->getFlashdata('success') ?>
     </div>
-  </div>
-  <div class="col-4 mb-4">
-    <div class="card text-bg-dark border-secondary">
-      <div class="card-body text-center">
-        <img src="<?= base_url('assets/img/user-default.png') ?>" class="rounded-circle" width="80" alt="">
-        <h6 class="mb-0">Achmad</h6>
-        <small class="mb-1">Anggota</small>
-      </div>
-    </div>
-  </div>
-  <div class="col-4 mb-4">
-    <div class="card text-bg-dark border-secondary">
-      <div class="card-body text-center">
-        <img src="<?= base_url('/img/nasrullah.jpg') ?>" class="rounded-circle" width="80" alt="">
-        <h6 class="mb-0">Nasrullah</h6>
-        <small class="mb-1">Anggota</small>
-      </div>
-    </div>
-  </div>
-  <div class="col-4 mb-4">
-    <div class="card text-bg-dark border-secondary">
-      <div class="card-body text-center">
-        <img src="<?= base_url('assets/img/user-default.png') ?>" class="rounded-circle" width="80" alt="">
-        <h6 class="mb-0">Fitria</h6>
-        <small class="mb-1">Anggota</small>
-      </div>
-    </div>
-  </div>
-  <div class="col-4 mb-4">
-    <div class="card text-bg-dark border-secondary">
-      <div class="card-body text-center">
-        <img src="<?= base_url('assets/img/user-default.png') ?>" class="rounded-circle" width="80" alt="">
-        <h6 class="mb-0">Elsa</h6>
-        <small class="mb-1">Anggota</small>
-      </div>
-    </div>
-  </div>
-  <div class="col-4 mb-4">
-    <div class="card text-bg-dark border-secondary">
-      <div class="card-body text-center">
-        <img src="<?= base_url('/img/florentina.jpg') ?>" class="rounded-circle" width="80" alt="">
-        <h6 class="mb-0">Florentina</h6>
-        <small class="mb-1">Anggota</small>
-      </div>
-    </div>
-  </div>
+  <?php endif; ?>
+
+  <!-- Judul Halaman -->
+  <h2 class="text-center mb-4">Daftar Anggota Komunitas</h2>
+
+  <!-- Tabel Daftar Anggota -->
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Nama Pengguna</th>
+        <th>Email</th>
+        <th>Tanggal Bergabung</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Loop untuk menampilkan anggota -->
+      <?php foreach ($users as $user): ?>
+        <tr>
+          <td><?= esc($user['username']); ?></td>
+          <td><?= esc($user['email']); ?></td>
+          <td><?= esc($user['created_at']); ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
 </div>
+
 <?= $this->endSection() ?>
