@@ -2,7 +2,7 @@
 
 # 🌐 KomunitasKu — Aplikasi Komunitas Online (CodeIgniter 4)
 
-Aplikasi **KomunitasKu** adalah platform komunitas online berbasis web yang dibangun menggunakan framework **CodeIgniter 4**. Aplikasi ini memungkinkan pengguna untuk berdiskusi, bergabung sebagai anggota, dan saling berinteraksi dengan tampilan UI/UX modern serta mendukung **tema gelap dan terang**.
+Aplikasi **KomunitasKu** adalah platform komunitas online berbasis web yang dibangun menggunakan framework **CodeIgniter 4**. Aplikasi ini memungkinkan pengguna untuk berdiskusi, bergabung sebagai anggota, dan saling berinteraksi dengan tampilan UI/UX modern serta mendukung, **tema gelap dan terang**.
 
 ---
 
