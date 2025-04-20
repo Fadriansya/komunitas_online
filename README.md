@@ -79,13 +79,7 @@ composer install
 ### 3. Setup .env & Database
 
 - Salin `.env.example` menjadi `.env`
-- Atur database:
-  ```env
-  database.default.hostname = localhost
-  database.default.database = komunitas
-  database.default.username = root
-  database.default.password =
-  ```
+- Atur database
 
 ### 4. Migrasi & Seed Database (jika disediakan)
 
