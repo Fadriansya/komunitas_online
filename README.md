@@ -1,5 +1,172 @@
 # CodeIgniter 4 Application Starter
 
+# 🌐 KomunitasKu — Aplikasi Komunitas Online (CodeIgniter 4)
+
+Aplikasi **KomunitasKu** adalah platform komunitas online berbasis web yang dibangun menggunakan framework **CodeIgniter 4**. Aplikasi ini memungkinkan pengguna untuk berdiskusi, bergabung sebagai anggota, dan saling berinteraksi dengan tampilan UI/UX modern serta mendukung **tema gelap dan terang**.
+
+---
+
+## 🚀 Fitur Utama
+
+- ✅ Registrasi akun (dengan validasi email hanya `@gmail.com`)
+- ✅ Login dan Logout dengan sistem sesi
+- ✅ Daftar anggota komunitas
+- ✅ Forum diskusi dengan list & detail diskusi
+- ✅ Tambah diskusi hanya untuk user yang login
+- ✅ Akses terbatas untuk fitur tertentu
+- ✅ UI responsif dan estetik (gelap & terang)
+- ✅ Animasi ringan dengan ScrollReveal.js
+- ✅ Flash message (sukses, error, validasi)
+
+---
+
+## 🧹 Teknologi yang Digunakan
+
+- CodeIgniter 4 (PHP)
+- Bootstrap 5
+- JavaScript (Dark/Light Mode Toggle, Animasi)
+- MySQL (untuk database)
+- Fontawesome & Bootstrap Icons
+- ScrollReveal.js (animasi scroll)
+- GitHub Actions (otomatisasi CI/CD)
+
+---
+
+## 📁 Struktur Folder Penting
+
+```
+app/
+│
+├── Controllers/
+│   ├── ForumController.php
+│   ├── LoginController.php
+│   ├── RegisterController.php
+│   └── AnggotaController.php
+│
+├── Models/
+│   ├── ForumModel.php
+│   └── UserModel.php
+│
+├── Views/
+│   ├── forum/
+│   │   ├── index.php
+│   │   └── create.php
+│   ├── auth/
+│   │   ├── login.php
+│   │   └── register.php
+│   ├── anggota/index.php
+│   ├── layout/main.php
+│   └── layout/login_overlay.php
+```
+
+---
+
+## 🛠️ Cara Menjalankan Proyek
+
+### 1. Clone Repo
+
+```bash
+git clone https://github.com/username/komunitasku.git
+cd komunitasku
+```
+
+### 2. Install Dependensi
+
+```bash
+composer install
+```
+
+### 3. Setup .env & Database
+
+- Salin `.env.example` menjadi `.env`
+- Atur database:
+  ```env
+  database.default.hostname = localhost
+  database.default.database = komunitas
+  database.default.username = root
+  database.default.password =
+  ```
+
+### 4. Migrasi & Seed Database (jika disediakan)
+
+```bash
+php spark migrate
+php spark db:seed UserSeeder  # (opsional)
+```
+
+### 5. Jalankan Server Lokal
+
+```bash
+php spark serve
+```
+
+---
+
+## 📊 Struktur Database
+
+### Tabel `users`
+
+| Field      | Tipe       | Keterangan            |
+| ---------- | ---------- | --------------------- |
+| id         | INT (auto) | Primary key           |
+| username   | VARCHAR    | Huruf & angka saja    |
+| email      | VARCHAR    | Validasi `@gmail.com` |
+| password   | VARCHAR    | Hashed password       |
+| role       | ENUM       | `user` atau `admin`   |
+| created_at | TIMESTAMP  | Auto timestamp        |
+
+### Tabel `forums`
+
+| Field      | Tipe       | Keterangan              |
+| ---------- | ---------- | ----------------------- |
+| id         | INT (auto) | Primary key             |
+| judul      | VARCHAR    | Judul diskusi           |
+| isi        | TEXT       | Isi diskusi             |
+| kategori   | VARCHAR    | Kategori pilihan        |
+| user_id    | INT        | Relasi ke tabel `users` |
+| created_at | TIMESTAMP  | Auto timestamp          |
+| updated_at | TIMESTAMP  | Auto update on edit     |
+
+---
+
+## 👥 Hak Akses
+
+| Role    | Akses Fitur                              |
+| ------- | ---------------------------------------- |
+| Guest   | Melihat diskusi, halaman tentang         |
+| User    | Membuat diskusi, melihat anggota, logout |
+| Admin\* | (Opsional, bisa ditambahkan ke depannya) |
+
+---
+
+## 🌈 Tema Gelap & Terang
+
+- Tema otomatis menyesuaikan dari tombol toggle
+- Diatur dengan JavaScript + CSS class
+- Tersimpan di `localStorage`
+
+---
+
+## 💡 Rencana Pengembangan Selanjutnya
+
+- 💬 Komentar pada diskusi
+- ❤️ Like/Vote diskusi
+- 📁 Kategori dinamis
+- 🔒 Middleware untuk proteksi per role
+- 📱 PWA versi mobile
+
+---
+
+## 👨‍💻 Kontribusi
+
+Ingin ikut mengembangkan? Fork repo, buat branch, dan ajukan pull request!
+
+---
+
+## 📝 Lisensi
+
+Aplikasi ini bebas digunakan untuk keperluan pembelajaran dan pengembangan.
+
 ## Database Setup
 
 File backup struktur database tersedia di `database/struktur.sql`.  
