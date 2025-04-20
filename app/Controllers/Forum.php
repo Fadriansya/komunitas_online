@@ -4,19 +4,31 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\ForumModel;
+
 
 class Forum extends BaseController
 {
     public function index()
     {
+        // Periksa apakah pengguna sudah login
+        if (!session()->get('logged_in')) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Tampilkan daftar forum jika sudah login
         $forumModel = new \App\Models\ForumModel();
-        $data['diskusi'] = $forumModel->findAll();
+        $data['diskusi'] = $forumModel->orderBy('created_at', 'DESC')->findAll();
 
         return view('forum/index', $data);
     }
 
-    public function create(): string
+    public function create(): ResponseInterface|string
     {
+        // Periksa apakah pengguna sudah login
+        if (!session()->get('logged_in')) {
+            return redirect()->to('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
         return view('forum/create');
     }
 

@@ -15,7 +15,6 @@
   <main class="container py-5">
     <?= $this->renderSection('content') ?>
   </main>
-  <?= $this->include('auth/login') ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/scrollreveal"></script>
   <script>

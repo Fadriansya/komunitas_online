@@ -8,6 +8,6 @@ class ForumModel extends Model
 {
   protected $table = 'forum';
   protected $primaryKey = 'id';
-  protected $allowedFields = ['judul', 'kategori', 'isi', 'user_id', 'updated_at'];
-  protected $useTimestamps = false;
+  protected $allowedFields = ['judul', 'isi', 'kategori', 'user_id', 'created_at', 'updated_at'];
+  protected $useTimestamps = true;
 }

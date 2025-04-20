@@ -3,7 +3,11 @@
 
 <div class="container mt-4">
   <h2>Daftar Diskusi</h2>
-  <a href="<?= base_url('/forum/create') ?>" class="btn btn-primary mb-3">Buat Diskusi Baru</a>
+
+  <!-- Hanya tampilkan tombol buat diskusi jika pengguna sudah login -->
+  <?php if (session()->get('logged_in')): ?>
+    <a href="<?= base_url('/forum/create') ?>" class="btn btn-primary mb-3">Buat Diskusi Baru</a>
+  <?php endif; ?>
 
   <?php if (!empty($diskusi)) : ?>
     <?php foreach ($diskusi as $item) : ?>

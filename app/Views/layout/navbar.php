@@ -26,8 +26,13 @@
       </button>
       <!-- End Dark/Light Mode Switch -->
       <div class="d-flex align-items-center">
-        <button id="btn-login" class="btn btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#login">Login</button>
-        <a id="btn-register" class="btn btn-secondary" href="<?= base_url('register') ?>">Daftar</a>
+        <!-- Cek apakah pengguna sudah login -->
+        <?php if (session()->get('logged_in')) : ?>
+          <a href="<?= base_url('logout') ?>" class="btn btn-secondary">Logout</a>
+        <?php else : ?>
+          <a href="<?= base_url('login') ?>" class="btn btn-secondary me-2">Login</a>
+          <a href="<?= base_url('register') ?>" class="btn btn-secondary">Daftar</a>
+        <?php endif; ?>
       </div>
     </div>
   </div>

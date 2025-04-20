@@ -21,3 +21,8 @@ $routes->post('/register/store', 'RegisterController::store');
 $routes->get('register', 'Auth::register');
 $routes->post('register/save', 'Auth::save');
 $routes->get('anggota', 'Anggota::index');
+
+// login
+$routes->get('/login', 'LoginController::index');
+$routes->post('/login', 'LoginController::login');
+$routes->get('/logout', 'LoginController::logout');
