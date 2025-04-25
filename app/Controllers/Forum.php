@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ForumModel;
+use App\Models\CommentModel;
 
 
 class Forum extends BaseController
@@ -13,15 +14,14 @@ class Forum extends BaseController
     {
         // Periksa apakah pengguna sudah login
         if (!session()->get('logged_in')) {
-            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->to('login')->with('error', 'Silakan login terlebih dahulu.');
         }
+        $forumModel = new ForumModel();
+        $diskusi = $forumModel->getAllWithCommentCount();
 
-        // Tampilkan daftar forum jika sudah login
-        $forumModel = new \App\Models\ForumModel();
-        $data['diskusi'] = $forumModel->orderBy('created_at', 'DESC')->findAll();
-
-        return view('forum/index', $data);
+        return view('forum/index', ['diskusi' => $diskusi]);
     }
+
 
     public function create(): ResponseInterface|string
     {
@@ -32,44 +32,74 @@ class Forum extends BaseController
         return view('forum/create');
     }
 
-    public function detail($id): string
+    public function comment($id)
     {
-        // Data dummy detail topik
-        $topik = [
-            'id' => $id,
-            'judul' => 'Cara install CodeIgniter 4',
-            'kategori' => 'Tanya Jawab',
-            'penulis' => 'andi123',
-            'waktu' => '3 hari lalu',
-            'isi' => 'Saya masih bingung saat setup awal, ada yang bisa bantu?'
-        ];
+        if (!session()->get('logged_in')) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');;
+        }
 
-        // Data dummy komentar
-        $balasan = [
-            [
-                'user' => 'member01',
-                'pesan' => 'Coba mulai dengan composer create-project, lalu jalankan php spark serve.',
-                'waktu' => '2 hari lalu'
-            ],
-            // Balasan lain bisa ditambahkan di sini
+        $komentarModel = new CommentModel();
+        $data = [
+            'forum_id' => $id,
+            'user_id' => session()->get('user_id'),
+            'komentar' => $this->request->getPost('balasan'),
         ];
+        $komentarModel->insert($data);
+
+        return redirect()->back()->with('success', 'Balasan berhasil dikirim.');
+    }
+
+
+
+    public function detail($id)
+    {
+        $forumModel = new ForumModel();
+        $commentModel = new CommentModel();
+        $userModel = new \App\Models\UserModel();
+
+        $diskusi = $forumModel->select('forum.*, users.username')
+            ->join('users', 'users.id = forum.user_id', 'left')
+            ->where('forum.id', $id)
+            ->first();
+
+        if (!$diskusi) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Diskusi tidak ditemukan.");
+        }
+
+        $komentar = $commentModel->select('comments.*, users.username')
+            ->join('users', 'users.id = comments.user_id', 'left')
+            ->where('forum_id', $id)
+            ->orderBy('comments.created_at', 'ASC')
+            ->findAll();
 
         return view('forum/detail', [
-            'topik' => $topik,
-            'balasan' => $balasan
+            'diskusi'  => $diskusi,
+            'komentar' => $komentar
         ]);
     }
 
+
+
+
     public function balas()
     {
-        // Sementara hanya tampilkan balasan yang dikirim
-        $topik_id = $this->request->getPost('topik_id');
-        $pesan = $this->request->getPost('balasan');
+        if (!session()->get('logged_in')) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu untuk membalas.');
+        }
 
-        // Proses simpan ke database nanti kita bahas
+        $commentModel = new \App\Models\CommentModel();
 
-        return redirect()->to('/forum/detail/' . $topik_id);
+        $data = [
+            'forum_id' => $this->request->getPost('topik_id'),
+            'user_id'  => session()->get('user_id'),
+            'komentar' => $this->request->getPost('balasan'),
+        ];
+
+        $commentModel->save($data);
+
+        return redirect()->to('/forum/detail/' . $data['forum_id'])->with('success', 'Komentar berhasil dikirim.');
     }
+
 
     public function simpan()
     {

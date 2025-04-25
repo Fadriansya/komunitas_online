@@ -8,16 +8,12 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/profil', 'Profil::index');
-$routes->get('/forum', 'Forum::index');
-$routes->get('/forum/create', 'Forum::create');
-$routes->post('/forum/simpan', 'Forum::simpan');
 $routes->get('/anggota', 'Anggota::index');
 $routes->get('/tentang', 'Tentang::index');
 
 // register
 $routes->get('/register', 'RegisterController::index');
 $routes->post('/register/store', 'RegisterController::store');
-
 $routes->get('register', 'Auth::register');
 $routes->post('register/save', 'Auth::save');
 $routes->get('anggota', 'Anggota::index');
@@ -26,3 +22,10 @@ $routes->get('anggota', 'Anggota::index');
 $routes->get('/login', 'LoginController::index');
 $routes->post('/login', 'LoginController::login');
 $routes->get('/logout', 'LoginController::logout');
+
+// komentar
+$routes->get('/forum', 'Forum::index');
+$routes->get('/forum/create', 'Forum::create');
+$routes->post('/forum/simpan', 'Forum::simpan');
+$routes->get('/forum/detail/(:num)', 'Forum::detail/$1');
+$routes->post('/forum/comment/(:num)', 'Forum::comment/$1');

@@ -9,35 +9,59 @@
 
 <!-- Topik Utama -->
 <div class="p-4 rounded-3 shadow-sm mb-4 bg-body">
-  <h3 class="fw-bold mb-1">Cara install CodeIgniter 4</h3>
-  <p class="mb-1 text-muted">Kategori: Tanya Jawab • Oleh <strong>andi123</strong> • 3 hari lalu</p>
+  <h3 class="fw-bold mb-1"><?= esc($diskusi['judul']) ?></h3>
+  <p class="mb-1 text-muted">
+    Kategori: <?= esc($diskusi['kategori']) ?> •
+    Oleh <strong><?= esc($diskusi['username'] ?? 'Anonim') ?></strong>
+    <?= date('d M Y H:i', strtotime($diskusi['created_at'])) ?>
+  </p>
   <hr>
-  <p>Saya masih bingung saat setup awal, ada yang bisa bantu?</p>
+  <p><?= nl2br(esc($diskusi['isi'])) ?></p>
 </div>
 
+<!-- Pesan Success -->
+<?php if (session()->getFlashdata('success')): ?>
+  <div class="alert alert-success">
+    <?= session()->getFlashdata('success') ?>
+  </div>
+<?php endif; ?>
+
 <!-- Komentar / Balasan -->
-<h5 class="fw-semibold mb-3">4 Balasan</h5>
+<h5 class="fw-semibold mb-3"><?= count($komentar) ?> Balasan</h5>
 
 <div class="list-group mb-5">
-  <div class="list-group-item bg-body-secondary rounded-3 mb-3 border-0">
-    <div class="d-flex justify-content-between">
-      <strong>member01</strong>
-      <small class="text-muted">2 hari lalu</small>
-    </div>
-    <p class="mb-1">Kamu bisa mulai dengan composer create-project, terus jalankan `php spark serve`.</p>
-  </div>
-  <!-- Tambahkan balasan lain di sini -->
+  <?php if (!empty($komentar)): ?>
+    <?php foreach ($komentar as $komen): ?>
+      <div class="list-group-item bg-body-secondary rounded-3 mb-3 border-0">
+        <div class="d-flex justify-content-between">
+          <strong><?= esc($komen['username']) ?></strong>
+          <small class="text-muted">
+            <?= date('d M Y H:i', strtotime($komen['created_at'])) ?>
+          </small>
+        </div>
+        <p class="mb-1"><?= nl2br(esc($komen['komentar'])) ?></p>
+      </div>
+    <?php endforeach ?>
+  <?php else: ?>
+    <p class="text-muted">Belum ada balasan.</p>
+  <?php endif ?>
 </div>
 
 <!-- Form Balasan -->
-<h5 class="fw-semibold">Tulis Balasan</h5>
-<form action="<?= base_url('forum/balas') ?>" method="post" class="mt-3">
-  <input type="hidden" name="topik_id" value="1"> <!-- ID topik -->
-  <div class="mb-3">
-    <textarea name="balasan" class="form-control" rows="4" placeholder="Tulis balasan kamu di sini..." required></textarea>
+<?php if (session()->get('logged_in')): ?>
+  <h5 class="fw-semibold">Tulis Balasan</h5>
+  <form action="<?= base_url('forum/comment/' . $diskusi['id']) ?>" method="post" class="mt-3">
+    <div class="mb-3">
+      <textarea name="balasan" class="form-control" rows="4" placeholder="Tulis balasan kamu di sini..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-chat-dots"></i> Kirim Balasan
+    </button>
+  </form>
+<?php else: ?>
+  <div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i>
+    <a href="<?= base_url('login') ?>">Login</a> terlebih dahulu untuk memberikan balasan.
   </div>
-  <button type="submit" class="btn btn-primary">
-    <i class="bi bi-chat-dots"></i> Kirim Balasan
-  </button>
-</form>
+<?php endif; ?>
 <?= $this->endSection() ?>

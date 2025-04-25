@@ -13,8 +13,17 @@
     <?php foreach ($diskusi as $item) : ?>
       <div class="card mb-3">
         <div class="card-body">
-          <h5><?= esc($item['judul']) ?></h5>
-          <small class="text-muted"><?= esc($item['kategori']) ?> | <?= $item['created_at'] ?></small>
+          <h5>
+            <a href="<?= base_url('forum/detail/' . $item['id']) ?>" class="text-decoration-none">
+              <?= esc($item['judul']) ?>
+            </a>
+          </h5>
+          <small class="text-muted">
+            <?= esc($item['kategori']) ?> |
+            <?= date('d M Y H:i', strtotime($item['created_at'])) ?> |
+            oleh <strong><?= esc($item['username'] ?? 'Anonim') ?></strong> •
+            <?= $item['jumlah_komentar'] ?> komentar
+          </small>
           <p><?= esc($item['isi']) ?></p>
         </div>
       </div>

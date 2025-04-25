@@ -143,7 +143,6 @@ php spark serve
 
 ## 💡 Rencana Pengembangan Selanjutnya
 
-- 💬 Komentar pada diskusi
 - ❤️ Like/Vote diskusi
 - 📁 Kategori dinamis
 - 🔒 Middleware untuk proteksi per role
