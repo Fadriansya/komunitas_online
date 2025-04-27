@@ -3,6 +3,6 @@
 <?= $this->section('content') ?>
 <div class="container mt-4">
   <h1>Admin Dashboard</h1>
-  <p>Selamat datang, Admin!</p>
+  <p>Selamat datang, Admin Nasrullah!</p>
 </div>
 <?= $this->endSection() ?>
