@@ -162,12 +162,12 @@ Aplikasi ini bebas digunakan untuk keperluan pembelajaran dan pengembangan.
 
 ## Database Setup
 
-File backup struktur database tersedia di `database/struktur.sql`.  
+File backup struktur database tersedia di `database/komunitas.sql`.  
 Untuk menggunakannya:
 
 1. Buka phpMyAdmin
 2. Buat database baru (contoh: komunitas_online)
-3. Import file `struktur.sql`
+3. Import file `komunitas.sql`
 
 ## What is CodeIgniter?
 

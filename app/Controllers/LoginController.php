@@ -24,6 +24,7 @@ class LoginController extends BaseController
         'user_id' => $user['id'],
         'username' => $user['username'],
         'email' => $user['email'],
+        'role'      => $user['role'],
         'logged_in' => true
       ]);
       return redirect()->to('/forum');

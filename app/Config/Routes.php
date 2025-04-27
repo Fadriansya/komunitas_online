@@ -6,7 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-$routes->get('/dashboard', 'Dashboard::index');
+// $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/profil', 'Profil::index');
 $routes->get('/anggota', 'Anggota::index');
 $routes->get('/tentang', 'Tentang::index');
@@ -29,3 +29,9 @@ $routes->get('/forum/create', 'Forum::create');
 $routes->post('/forum/simpan', 'Forum::simpan');
 $routes->get('/forum/detail/(:num)', 'Forum::detail/$1');
 $routes->post('/forum/comment/(:num)', 'Forum::comment/$1');
+
+// Admin Area (dengan filter adminfilter)
+$routes->group('admin', ['filters' => 'AdminFilter'], function ($routes) {});
+$routes->get('dashboard',         'Admin::dashboard');
+$routes->get('manage-users',      'Admin::manageUsers');
+$routes->get('delete-user/(:num)', 'Admin::deleteUser/$1');
