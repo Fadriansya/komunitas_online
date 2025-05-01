@@ -1,8 +1,8 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
-<section class="py-5 text-light bg-dark">
+<section class="py-4 text-light bg-dark">
   <div class="container">
-    <h2 class="mb-4 text-center">Tentang KomunitasKu</h2>
+    <h2 class="mb-5 text-center">Tentang KomunitasKu</h2>
     <p class="lead text-center">KomunitasKu dibangun untuk menjadi ruang diskusi yang ramah, terbuka, dan inspiratif. Kamu bisa berbagi pemikiran, bertanya, memberi solusi, atau sekadar bersosialisasi dengan sesama anggota yang memiliki minat dan semangat yang sama.</p>
     <hr class="bg-secondary my-4">
     <div class="row">

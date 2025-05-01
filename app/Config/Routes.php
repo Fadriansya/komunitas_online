@@ -10,6 +10,8 @@ $routes->get('/', 'Home::index');
 $routes->get('/profil', 'Profil::index');
 $routes->get('/anggota', 'Anggota::index');
 $routes->get('/tentang', 'Tentang::index');
+$routes->post('/theme/toggle', 'ThemeController::toggle');
+
 
 // register
 $routes->get('/register', 'RegisterController::index');
