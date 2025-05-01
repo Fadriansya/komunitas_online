@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $title ?? 'Komunitas Online' ?></title>
+  <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
@@ -40,7 +41,18 @@
 
     #sidebar a:hover {
       background-color: var(--bs-secondary-bg);
-      border-radius: 5px;
+      border-radius: 100px;
+    }
+
+    #sidebar a.active {
+      background-color: #343a40;
+      border-radius: 100px;
+      font-weight: bold;
+    }
+
+    [data-bs-theme="light"] #sidebar a.active {
+      background-color: #dee2e6;
+      color: #000;
     }
 
     #sidebar.hidden {
@@ -92,6 +104,11 @@
 </head>
 
 <body>
+
+  <?php
+  $uri = service('uri');
+  $segment1 = $uri->getSegment(1);
+  ?>
   <!-- Tombol Burger -->
   <button id="burgerToggle" class="burger-btn" onclick="toggleSidebar()">
     <i id="burgerIcon" class="bi bi-list"></i>
@@ -103,18 +120,17 @@
       <h4 class="mb-1">Komunitas</h4>
     </div>
     <hr>
-    <a href="<?= base_url('/') ?>">Home</a>
-    <a href="<?= base_url('/forum') ?>">Forum</a>
-    <a href="<?= base_url('/anggota') ?>">Anggota</a>
-    <a href="<?= base_url('/tentang') ?>">Tentang</a>
+    <a href="<?= base_url('/') ?>" class="<?= $segment1 === '' ? 'active' : '' ?>">Home</a>
+    <a href="<?= base_url('/forum') ?>" class="<?= $segment1 === 'forum' ? 'active' : '' ?>">Forum</a>
+    <a href="<?= base_url('/anggota') ?>" class="<?= $segment1 === 'anggota' ? 'active' : '' ?>">Anggota</a>
+    <a href="<?= base_url('/tentang') ?>" class="<?= $segment1 === 'tentang' ? 'active' : '' ?>">Tentang</a>
     <?php if (session()->get('logged_in')): ?>
       <a href="<?= base_url('/logout') ?>">Logout</a>
     <?php else: ?>
-      <a href="<?= base_url('/login') ?>">Login</a>
-      <a href="<?= base_url('/register') ?>">Daftar</a>
+      <a href="<?= base_url('/login') ?>" class="<?= $segment1 === 'login' ? 'active' : '' ?>">Login</a>
     <?php endif ?>
     <button id="toggle-theme" class="btn btn-sm btn-secondary mt-3">
-      <i class="bi bi-circle-half"></i> Theme
+      <i class="bi bi-sun"></i> Theme
     </button>
   </aside>
 
@@ -159,6 +175,32 @@
       }).then(() => {
         // Optional: bisa tambahkan feedback ke user
       });
+    });
+  </script>
+
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script>
+    ScrollReveal({
+      reset: false,
+      distance: '50px',
+      duration: 1000,
+      easing: 'ease-in-out',
+      delay: 100,
+    });
+
+    ScrollReveal().reveal('.hero-section', {
+      origin: 'top'
+    });
+    ScrollReveal().reveal('.feature-card', {
+      origin: 'bottom',
+      interval: 150
+    });
+    ScrollReveal().reveal('.latest-forum', {
+      origin: 'left',
+      interval: 100
+    });
+    ScrollReveal().reveal('.quote-section', {
+      origin: 'right'
     });
   </script>
 </body>

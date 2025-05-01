@@ -129,7 +129,7 @@ php spark serve
 | ------- | ---------------------------------------- |
 | Guest   | Melihat diskusi, halaman tentang         |
 | User    | Membuat diskusi, melihat anggota, logout |
-| Admin\* | (Opsional, bisa ditambahkan ke depannya) |
+| Admin\* | Membuat diskusi, menghapus user,         |
 
 ---
 
@@ -156,9 +156,23 @@ Ingin ikut mengembangkan? Fork repo, buat branch, dan ajukan pull request!
 
 ---
 
-## 📝 Lisensi
+## 📜 Lisensi
 
-Aplikasi ini bebas digunakan untuk keperluan pembelajaran dan pengembangan.
+MIT License — Bebas digunakan untuk pembelajaran & pengembangan.
+
+---
+
+**Progres Terbaru:**
+
+- Home page diperbarui: hero, fitur, diskusi terbaru, kutipan.
+- ScrollReveal.js animasi: hero, card fitur, daftar diskusi, kutipan.
+- Sidebar responsive & toggle di desktop/mobile.
+- Tema gelap/terang persist menggunakan JS + session.
+- Error 403 kustom dengan animasi.
+
+---
+
+_Dibangun dengan 💙 oleh Tim KomunitasKu_
 
 ## Database Setup
 
