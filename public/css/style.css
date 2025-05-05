@@ -1,145 +1,247 @@
-/* === Light Theme (default) === */
-:root,
-[data-bs-theme="light"] {
-  --bs-body-bg: #ffffff;
-  --bs-body-color: #000000;
-  --bs-card-bg: #ffffff;
-  --bs-card-color: #000000;
-  --bs-navbar-bg: #ffffff;
-  --bs-navbar-color: #000000;
-  --bs-border-color: #000000;
-  --bs-btn-bg: #000000;
-  --bs-btn-color: #ffffff;
-}
-
-/* === Dark Theme === */
-[data-bs-theme="dark"] {
-  --bs-body-bg: #121212;
-  --bs-body-color: #e0e0e0;
-  --bs-card-bg: #1e1e1e;
-  --bs-card-color: #ffffff;
-  --bs-navbar-bg: #1f1f1f;
-  --bs-navbar-color: #ffffff;
-  --bs-border-color: #ffffff;
-  --bs-btn-bg: #ffffff;
-  --bs-btn-color: #000000;
-}
-
-/* === Apply to elements === */
 body {
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
   transition: background-color 0.3s, color 0.3s;
-}
-
-.navbar {
-  background-color: var(--bs-navbar-bg) !important;
-  color: var(--bs-navbar-color) !important;
-}
-
-/* Tombol navbar dengan border */
-.nav-btn {
-  padding: 6px 12px;
-  margin-right: 6px;
-  border-radius: 8px;
-  border: 1px solid var(--bs-border-color);
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  font-weight: 500;
-  color: var(--bs-body-color);
-}
-
-/* Hover: beri latar belakang & ubah warna teks */
-.nav-btn:hover {
-  background-color: var(--bs-success);
-  color: #fff !important;
-  border-color: var(--bs-success);
-}
-
-/* Aktif: seperti hover, biar kelihatan sedang diklik atau halaman aktif */
-.nav-btn.active {
-  background-color: var(--bs-primary);
-  color: #fff !important;
-  border-color: var(--bs-primary);
-}
-
-.navbar .nav-link,
-.navbar-brand {
-  color: var(--bs-navbar-color) !important;
-}
-
-.card,
-.modal-content,
-.list-group-item,
-.dropdown-menu {
-  background-color: var(--bs-card-bg);
-  color: var(--bs-card-color);
-  border-color: var(--bs-border-color);
-  transition: all 0.3s ease;
-}
-
-.form-control {
-  background-color: var(--bs-card-bg);
-  color: var(--bs-card-color);
-  border: 1px solid var(--bs-border-color);
-}
-
-.btn {
-  background-color: var(--bs-btn-bg);
-  color: var(--bs-btn-color);
-  border: 1px solid var(--bs-border-color);
-}
-
-.btn:hover {
-  background-color: var(--bs-border-color);
-  color: var(--bs-body-bg);
-}
-
-/* Optional transition */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-#toggle-theme {
-  border: none;
-  background-color: transparent;
-  color: var(--bs-body-color);
-  font-size: 1.25rem;
-  transition: color 0.3s ease;
-}
-
-/* Tambahan hover effect */
-#toggle-theme:hover {
-  color: var(--bs-primary);
-}
-
-.theme-toggle-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background-color: rgba(0, 0, 0, 0.05); /* semi transparan */
-  color: var(--bs-body-color);
+  margin: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
 }
 
-/* Hover effect */
-.theme-toggle-btn:hover {
-  background-color: rgba(0, 0, 0, 0.15);
+#sidebar {
+  width: 200px;
+  background-color: var(--bs-body-bg);
+  padding: 1rem;
+  color: var(--bs-body-color);
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  z-index: 1040;
+  transition: transform 0.3s ease-in-out;
+  border-right: 1px solid var(--bs-border-color);
+}
+
+#sidebar h4 {
+  margin-left: 30px;
+}
+
+#sidebar a {
+  color: inherit;
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+}
+
+#sidebar a:hover {
+  background-color: var(--bs-secondary-bg);
+  border-radius: 100px;
+}
+
+#sidebar a.active {
+  background-color: #343a40;
+  border-radius: 100px;
+  font-weight: bold;
+}
+
+[data-bs-theme="light"] #sidebar a.active {
+  background-color: #dee2e6;
+  color: #000;
+}
+
+#sidebar.hidden {
+  transform: translateX(-100%);
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.burger-btn {
+  position: fixed;
+  top: 7px;
+  left: 10px;
+  z-index: 1050;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--bs-secondary);
+}
+
+.burger-btn :hover {
+  cursor: pointer;
   color: var(--bs-primary);
 }
 
-/* Ubah tampilan saat di mode gelap */
-[data-bs-theme="dark"] .theme-toggle-btn {
-  background-color: rgba(255, 255, 255, 0.05);
+#content {
+  flex-grow: 1;
+  min-height: 100vh;
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+  margin-left: 200px;
 }
 
-[data-bs-theme="dark"] .theme-toggle-btn:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+.sidebar-hidden #content {
+  margin-left: 0;
 }
 
-/* Layout dasar */
-.wrapper {
-  transition: margin-left 0.3s;
+@media (max-width: 768px) {
+  #content {
+    margin-left: 0;
+  }
+
+  #sidebar {
+    position: fixed;
+    height: 100%;
+  }
+
+  /* === Light Theme (default) === */
+  :root,
+  [data-bs-theme="light"] {
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #000000;
+    --bs-card-bg: #ffffff;
+    --bs-card-color: #000000;
+    --bs-navbar-bg: #ffffff;
+    --bs-navbar-color: #000000;
+    --bs-border-color: #000000;
+    --bs-btn-bg: #000000;
+    --bs-btn-color: #ffffff;
+  }
+
+  /* === Dark Theme === */
+  [data-bs-theme="dark"] {
+    --bs-body-bg: #121212;
+    --bs-body-color: #e0e0e0;
+    --bs-card-bg: #1e1e1e;
+    --bs-card-color: #ffffff;
+    --bs-navbar-bg: #1f1f1f;
+    --bs-navbar-color: #ffffff;
+    --bs-border-color: #ffffff;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-color: #000000;
+  }
+
+  /* === Apply to elements === */
+  body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .navbar {
+    background-color: var(--bs-navbar-bg) !important;
+    color: var(--bs-navbar-color) !important;
+  }
+
+  /* Tombol navbar dengan border */
+  .nav-btn {
+    padding: 6px 12px;
+    margin-right: 6px;
+    border-radius: 8px;
+    border: 1px solid var(--bs-border-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    font-weight: 500;
+    color: var(--bs-body-color);
+  }
+
+  /* Hover: beri latar belakang & ubah warna teks */
+  .nav-btn:hover {
+    background-color: var(--bs-success);
+    color: #fff !important;
+    border-color: var(--bs-success);
+  }
+
+  /* Aktif: seperti hover, biar kelihatan sedang diklik atau halaman aktif */
+  .nav-btn.active {
+    background-color: var(--bs-primary);
+    color: #fff !important;
+    border-color: var(--bs-primary);
+  }
+
+  .navbar .nav-link,
+  .navbar-brand {
+    color: var(--bs-navbar-color) !important;
+  }
+
+  .card,
+  .modal-content,
+  .list-group-item,
+  .dropdown-menu {
+    background-color: var(--bs-card-bg);
+    color: var(--bs-card-color);
+    border-color: var(--bs-border-color);
+    transition: all 0.3s ease;
+  }
+
+  .form-control {
+    background-color: var(--bs-card-bg);
+    color: var(--bs-card-color);
+    border: 1px solid var(--bs-border-color);
+  }
+
+  .btn {
+    background-color: var(--bs-btn-bg);
+    color: var(--bs-btn-color);
+    border: 1px solid var(--bs-border-color);
+  }
+
+  .btn:hover {
+    background-color: var(--bs-border-color);
+    color: var(--bs-body-bg);
+  }
+
+  /* Optional transition */
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  #toggle-theme {
+    border: none;
+    background-color: transparent;
+    color: var(--bs-body-color);
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+  }
+
+  /* Tambahan hover effect */
+  #toggle-theme:hover {
+    color: var(--bs-primary);
+  }
+
+  .theme-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.05);
+    /* semi transparan */
+    color: var(--bs-body-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Hover effect */
+  .theme-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    color: var(--bs-primary);
+  }
+
+  /* Ubah tampilan saat di mode gelap */
+  [data-bs-theme="dark"] .theme-toggle-btn {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  [data-bs-theme="dark"] .theme-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  /* Layout dasar */
+  .wrapper {
+    transition: margin-left 0.3s;
+  }
 }
