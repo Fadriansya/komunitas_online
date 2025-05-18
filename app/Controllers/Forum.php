@@ -7,7 +7,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ForumModel;
 use App\Models\CommentModel;
 
-
 class Forum extends BaseController
 {
     public function index()
@@ -16,12 +15,28 @@ class Forum extends BaseController
         if (!session()->get('logged_in')) {
             return redirect()->to('login')->with('error', 'Silakan login terlebih dahulu.');
         }
+
         $forumModel = new ForumModel();
-        $diskusi = $forumModel->getAllWithCommentCount();
 
-        return view('forum/index', ['diskusi' => $diskusi]);
+        // Ambil keyword dari query string
+        $keyword = $this->request->getGet('keyword');
+
+        // Mulai builder dari method getAllWithCommentCount()
+        $query = $forumModel->getAllWithCommentCount();
+
+        // Jika ada keyword, filter berdasarkan judul yang diawali keyword tersebut
+        if ($keyword) {
+            $query->like('judul', $keyword);
+        }
+
+        // Jalankan query dan ambil hasilnya
+        $diskusi = $query->findAll();
+
+        return view('forum/index', [
+            'diskusi' => $diskusi,
+            'keyword' => $keyword
+        ]);
     }
-
 
     public function create(): ResponseInterface|string
     {
@@ -48,8 +63,6 @@ class Forum extends BaseController
 
         return redirect()->back()->with('success', 'Balasan berhasil dikirim.');
     }
-
-
 
     public function detail($id)
     {
@@ -78,9 +91,6 @@ class Forum extends BaseController
         ]);
     }
 
-
-
-
     public function balas()
     {
         if (!session()->get('logged_in')) {
@@ -99,7 +109,6 @@ class Forum extends BaseController
 
         return redirect()->to('/forum/detail/' . $data['forum_id'])->with('success', 'Komentar berhasil dikirim.');
     }
-
 
     public function simpan()
     {

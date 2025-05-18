@@ -17,7 +17,6 @@ class ForumModel extends Model
       ->join('users', 'users.id = forum.user_id', 'left')
       ->join('comments', 'comments.forum_id = forum.id', 'left')
       ->groupBy('forum.id')
-      ->orderBy('forum.created_at', 'DESC')
-      ->findAll();
+      ->orderBy('forum.created_at', 'DESC');
   }
 }
