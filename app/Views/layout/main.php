@@ -37,8 +37,19 @@
       <a href="<?= base_url('/login') ?>" class="<?= $segment1 === 'login' ? 'active' : '' ?>">Login</a>
     <?php endif ?>
     <button id="toggle-theme" class="btn btn-sm btn-secondary mt-3">
-      <i class="bi bi-sun"></i> Theme
+      <i class="bi bi-sun"></i>Theme
     </button>
+    <?php if (session()->get('logged_in')): ?>
+      <a class="nav-item mt-3 text-center" href="<?= base_url('profile') ?>">
+        <?php
+        $avatar = session()->get('avatar');
+        $avatarPath = $avatar && file_exists(FCPATH . 'uploads/avatars/' . $avatar)
+          ? 'uploads/avatars/' . $avatar
+          : 'uploads/avatars/default-avatar.png';
+        ?>
+        <img src="<?= base_url($avatarPath) ?>" class="rounded-circle" width="50" height="50" alt="My Profile">
+      </a>
+    <?php endif; ?>
   </aside>
 
   <!-- Konten Utama -->
@@ -47,6 +58,30 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    setTimeout(function() {
+      var alert = document.querySelector('.alert');
+      if (alert) {
+        var bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close();
+      }
+    }, 2000); // 2 detik
+  </script>
+  <script>
+    document.querySelector('input[name="avatar"]').addEventListener('change', function(e) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const imgPreview = document.querySelector('#avatar-preview');
+        if (imgPreview) {
+          imgPreview.src = reader.result;
+        }
+      }
+      if (e.target.files[0]) {
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+  </script>
+
   <script>
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');

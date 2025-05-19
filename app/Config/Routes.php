@@ -6,8 +6,14 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-// $routes->get('/dashboard', 'Dashboard::index');
-$routes->get('/profil', 'Profil::index');
+
+// route untuk profil
+$routes->get('/profil', 'UserController::profile', ['filter' => 'auth']);
+$routes->get('profilsaya', 'UserController::profile');
+$routes->get('profile', 'UserController::profile');
+$routes->post('profile/update', 'UserController::update');
+
+
 $routes->get('/anggota', 'Anggota::index');
 $routes->get('/tentang', 'Tentang::index');
 $routes->post('/theme/toggle', 'ThemeController::toggle');
