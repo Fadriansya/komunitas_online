@@ -32,6 +32,9 @@
     <a href="<?= base_url('/anggota') ?>" class="<?= $segment1 === 'anggota' ? 'active' : '' ?>">Anggota</a>
     <a href="<?= base_url('/tentang') ?>" class="<?= $segment1 === 'tentang' ? 'active' : '' ?>">Tentang</a>
     <?php if (session()->get('logged_in')): ?>
+      <?php if (session()->get('role') === 'admin'): ?>
+        <a href="<?= base_url('dashboard') ?>" class="<?= $segment1 === 'admin' ? 'active' : '' ?>">Dashboard</a>
+      <?php endif; ?>
       <a href="<?= base_url('/logout') ?>">Logout</a>
     <?php else: ?>
       <a href="<?= base_url('/login') ?>" class="<?= $segment1 === 'login' ? 'active' : '' ?>">Login</a>

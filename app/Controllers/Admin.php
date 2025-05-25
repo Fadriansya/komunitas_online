@@ -14,19 +14,9 @@ class Admin extends BaseController
     if (session()->get('role') !== 'admin') {
       return view('errors/html/error_403');
     }
-    return view('admin/dashboard');
-  }
-
-  public function manageUsers()
-  {
-    if (session()->get('role') !== 'admin') {
-      return view('errors/html/error_403');
-    }
-
     $userModel = new UserModel();
-    $users = $userModel->where('role !=', 'admin')->findAll(); // Ambil semua user kecuali admin
-
-    return view('admin/manage_users', ['users' => $users]);
+    $users = $userModel->where('role !=', 'admin')->findAll();
+    return view('admin/dashboard', ['users' => $users]);
   }
 
   public function deleteUser($id)
@@ -44,6 +34,6 @@ class Admin extends BaseController
     }
 
     $userModel->delete($id);
-    return redirect()->to('manage-users')->with('success', 'User berhasil dihapus.');
+    return redirect()->to('dashboard')->with('success', 'User berhasil dihapus.');
   }
 }

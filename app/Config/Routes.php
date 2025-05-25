@@ -41,5 +41,4 @@ $routes->post('/forum/comment/(:num)', 'Forum::comment/$1');
 // Admin Area (dengan filter adminfilter)
 $routes->group('admin', ['filters' => 'AdminFilter'], function ($routes) {});
 $routes->get('dashboard',         'Admin::dashboard');
-$routes->get('manage-users',      'Admin::manageUsers');
-$routes->get('delete-user/(:num)', 'Admin::deleteUser/$1');
+$routes->post('admin/delete_user/(:num)', 'Admin::deleteUser/$1');
