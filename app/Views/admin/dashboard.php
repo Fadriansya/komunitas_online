@@ -12,7 +12,34 @@
       </div>
     </div>
   </div>
-
+  <!-- Statistik Card -->
+  <div class="row mb-4">
+    <div class="col-md-4 mb-2">
+      <div class="card text-bg-info shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title mb-1"><i class="bi bi-people"></i> Total User</h5>
+          <h2><?= $totalUser ?></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-2">
+      <div class="card text-bg-success shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title mb-1"><i class="bi bi-person-badge"></i> Total Admin</h5>
+          <h2><?= $totalAdmin ?></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-2">
+      <div class="card text-bg-warning shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title mb-1"><i class="bi bi-chat-dots"></i> Total Forum</h5>
+          <h2><?= $totalForum ?></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end card -->
   <div class="row mb-3">
     <div class="col">
       <h4 class="mb-3">Daftar User</h4>
