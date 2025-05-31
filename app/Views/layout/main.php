@@ -30,7 +30,7 @@
     <a href="<?= base_url('/') ?>" class="<?= $segment1 === '' ? 'active' : '' ?>">Home</a>
     <a href="<?= base_url('/forum') ?>" class="<?= $segment1 === 'forum' ? 'active' : '' ?>">Forum</a>
     <a href="<?= base_url('/anggota') ?>" class="<?= $segment1 === 'anggota' ? 'active' : '' ?>">Anggota</a>
-    <a href="<?= base_url('/tentang') ?>" class="<?= $segment1 === 'tentang' ? 'active' : '' ?>">Tentang</a>
+    <a href="<?= base_url('/tentang') ?>" class="<?= $segment1 === 'tentang' ? 'active' : '' ?>">About</a>
     <?php if (session()->get('logged_in')): ?>
       <?php if (session()->get('role') === 'admin'): ?>
         <a href="<?= base_url('dashboard') ?>" class="<?= $segment1 === 'admin' ? 'active' : '' ?>">Dashboard</a>
