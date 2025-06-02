@@ -27,9 +27,9 @@
     <label for="kategori" class="form-label">Kategori</label>
     <select class="form-select" id="kategori" name="kategori" required>
       <option value="">-- Pilih Kategori --</option>
-      <option value="umum">Diskusi Umum</option>
-      <option value="tanya">Tanya Jawab</option>
-      <option value="info">Informasi</option>
+      <?php foreach ($kategoriList as $kat): ?>
+        <option value="<?= $kat['id'] ?>"><?= esc($kat['nama_kategori']) ?></option>
+      <?php endforeach; ?>
     </select>
   </div>
 

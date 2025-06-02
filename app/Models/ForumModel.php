@@ -13,8 +13,9 @@ class ForumModel extends Model
 
   public function getAllWithCommentCount()
   {
-    return $this->select('forum.*, users.username, COUNT(comments.id) as jumlah_komentar')
+    return $this->select('forum.*, users.username, kategori_forum.nama_kategori, COUNT(comments.id) as jumlah_komentar')
       ->join('users', 'users.id = forum.user_id', 'left')
+      ->join('kategori_forum', 'kategori_forum.id = forum.kategori', 'left')
       ->join('comments', 'comments.forum_id = forum.id', 'left')
       ->groupBy('forum.id')
       ->orderBy('forum.created_at', 'DESC');

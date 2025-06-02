@@ -6,45 +6,52 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ForumModel;
 use App\Models\CommentModel;
+use App\Models\KategoriForumModel;
 
 class Forum extends BaseController
 {
     public function index()
     {
-        // Periksa apakah pengguna sudah login
         if (!session()->get('logged_in')) {
             return redirect()->to('login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
         $forumModel = new ForumModel();
+        $kategoriModel = new KategoriForumModel();
 
-        // Ambil keyword dari query string
         $keyword = $this->request->getGet('keyword');
+        $kategoriId = $this->request->getGet('kategori');
 
-        // Mulai builder dari method getAllWithCommentCount()
         $query = $forumModel->getAllWithCommentCount();
 
-        // Jika ada keyword, filter berdasarkan judul yang diawali keyword tersebut
         if ($keyword) {
             $query->like('judul', $keyword);
         }
 
-        // Jalankan query dan ambil hasilnya
+        if ($kategoriId) {
+            $query->where('forum.kategori', $kategoriId);
+        }
+
         $diskusi = $query->findAll();
+        $semuaKategori = $kategoriModel->findAll();
 
         return view('forum/index', [
             'diskusi' => $diskusi,
-            'keyword' => $keyword
+            'keyword' => $keyword,
+            'kategoriDipilih' => $kategoriId,
+            'kategoriList' => $semuaKategori,
         ]);
     }
 
-    public function create(): ResponseInterface|string
+    public function create()
     {
-        // Periksa apakah pengguna sudah login
         if (!session()->get('logged_in')) {
-            return redirect()->to('login')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');;
         }
-        return view('forum/create');
+        $kategoriModel = new KategoriForumModel();
+        return view('forum/create', [
+            'kategoriList' => $kategoriModel->findAll()
+        ]);
     }
 
     public function comment($id)
