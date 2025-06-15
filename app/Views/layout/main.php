@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="X-CSRF-TOKEN" content="<?= csrf_token() ?>">
   <title><?= $title ?? 'Komunitas Online' ?></title>
   <link rel="stylesheet" href="<?= base_url('/css/style.css') ?>">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/95/three.min.js"></script>
 </head>
 
 <body>
@@ -31,6 +33,8 @@
     <a href="<?= base_url('/forum') ?>" class="<?= $segment1 === 'forum' ? 'active' : '' ?>">Forum</a>
     <a href="<?= base_url('/anggota') ?>" class="<?= $segment1 === 'anggota' ? 'active' : '' ?>">Anggota</a>
     <a href="<?= base_url('/tentang') ?>" class="<?= $segment1 === 'tentang' ? 'active' : '' ?>">About</a>
+    <a href="<?= base_url('game') ?>" class="<?= $segment1 === 'admin' ? 'active' : '' ?>">Games</a>
+
     <?php if (session()->get('logged_in')): ?>
       <?php if (session()->get('role') === 'admin'): ?>
         <a href="<?= base_url('dashboard') ?>" class="<?= $segment1 === 'admin' ? 'active' : '' ?>">Dashboard</a>
@@ -39,10 +43,28 @@
     <?php else: ?>
       <a href="<?= base_url('/login') ?>" class="<?= $segment1 === 'login' ? 'active' : '' ?>">Login</a>
     <?php endif ?>
+
+    <!-- Theme Switcher -->
     <button id="toggle-theme" class="btn btn-sm btn-secondary mt-3">
-      <i class="bi bi-sun"></i>Theme
+      <i class="bi bi-sun"></i> Theme
     </button>
+
+    <!-- Notifikasi (Hanya jika login) -->
     <?php if (session()->get('logged_in')): ?>
+      <!-- Tombol Notifikasi -->
+      <!-- <div class="dropdown me-3">
+        <button id="notifBtn" class="btn btn-outline-primary position-relative dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-bell"></i>
+          <span id="notifCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+        </button> -->
+
+      <!-- Dropdown Menu Notifikasi -->
+      <!-- <ul id="notifList" class="dropdown-menu dropdown-menu-end p-0" style="width: 320px; max-height: 400px; overflow-y: auto;">
+          <li class="list-group-item text-center text-muted">Memuat notifikasi...</li>
+        </ul>
+      </div> -->
+
+      <!-- Avatar -->
       <a class="nav-item mt-3 text-center" href="<?= base_url('profile') ?>">
         <?php
         $avatar = session()->get('avatar');
@@ -63,26 +85,30 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     setTimeout(function() {
-      var alert = document.querySelector('.alert');
+      const alert = document.querySelector('.alert');
       if (alert) {
-        var bsAlert = new bootstrap.Alert(alert);
+        const bsAlert = new bootstrap.Alert(alert);
         bsAlert.close();
       }
-    }, 2000); // 2 detik
+    }, 2000);
   </script>
+
   <script>
-    document.querySelector('input[name="avatar"]').addEventListener('change', function(e) {
-      const reader = new FileReader();
-      reader.onload = function() {
-        const imgPreview = document.querySelector('#avatar-preview');
-        if (imgPreview) {
-          imgPreview.src = reader.result;
+    const avatarInput = document.querySelector('input[name="avatar"]');
+    if (avatarInput) {
+      avatarInput.addEventListener('change', function(e) {
+        const reader = new FileReader();
+        reader.onload = function() {
+          const imgPreview = document.querySelector('#avatar-preview');
+          if (imgPreview) {
+            imgPreview.src = reader.result;
+          }
+        };
+        if (e.target.files[0]) {
+          reader.readAsDataURL(e.target.files[0]);
         }
-      }
-      if (e.target.files[0]) {
-        reader.readAsDataURL(e.target.files[0]);
-      }
-    });
+      });
+    }
   </script>
 
   <script>
@@ -124,6 +150,8 @@
   </script>
 
   <script src="https://unpkg.com/scrollreveal"></script>
+  <!-- Di head atau sebelum penutup body -->
+  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
   <script>
     ScrollReveal({
       reset: false,

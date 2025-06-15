@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('game', 'Home::game');
 
 // route untuk profil
 $routes->get('/profil', 'UserController::profile', ['filter' => 'auth']);
