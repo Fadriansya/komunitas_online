@@ -40,8 +40,8 @@
     <div class="col-md-3">
       <div class="card h-100 shadow-sm border-0 bg-body-tertiary feature-card">
         <div class="card-body">
-          <h5 class="card-title fw-semibold">Event & Kegiatan</h5>
-          <p class="card-text">Ikuti kegiatan seru untuk menambah wawasan & koneksi.</p>
+          <h5 class="card-title fw-semibold">Games</h5>
+          <p class="card-text">Mainkan game seru untuk melatih logika.</p>
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@
         <span>CUBE</span>
       </h1>
       <div class="text text--note">
-        Double tap to start
+        tap to start
       </div>
       <div class="text text--timer">
         0:00
