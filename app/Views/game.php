@@ -15,9 +15,6 @@
     <div class="ui__background"></div>
 
     <div class="ui__game"></div>
-    <a href="<?= base_url('/') ?>" class="btn btn--home" style="position: absolute; top: 20px; left: 20px; z-index: 1000;">
-      <icon back></icon> Home
-    </a>
 
     <div class="ui__texts">
       <h1 class="text text--title">

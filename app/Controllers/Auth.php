@@ -1,22 +1,16 @@
 <?php
-
 namespace App\Controllers;
-
 use App\Models\UserModel;
-
-
 class Auth extends BaseController
 {
   public function login(): string
   {
     return view('auth/login');
   }
-
   public function register()
   {
     return view('auth/register');
   }
-
   public function save()
   {
     $userModel = new \App\Models\UserModel();
