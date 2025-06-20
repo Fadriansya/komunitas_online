@@ -49,7 +49,7 @@ class UserController extends BaseController
     if (empty($filtered)) {
       return redirect()->back()->with('error', 'Tidak ada data yang diubah.');
     }
-    
+
     // Update ke database
     $userModel->update($userId, $filtered);
     return redirect()->to('/profile')->with('success', 'Profil berhasil diperbarui!');
