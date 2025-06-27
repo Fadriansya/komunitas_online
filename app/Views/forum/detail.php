@@ -7,26 +7,50 @@
   </a>
 </div>
 
-<!-- Topik Utama -->
-<div class="p-4 rounded-3 shadow-sm mb-4 bg-body">
-  <h3 class="fw-bold mb-1"><?= esc($diskusi['judul']) ?></h3>
-  <p class="mb-1 text-muted">
-    Kategori: <?= esc($diskusi['kategori']) ?> •
-    Oleh <strong><?= esc($diskusi['username'] ?? 'Anonim') ?></strong>
-    <?= date('d M Y H:i', strtotime($diskusi['created_at'])) ?>
-  </p>
-  <hr>
-  <p><?= nl2br(esc($diskusi['isi'])) ?></p>
-</div>
-
-<!-- Pesan Success -->
+<!-- Flash Error -->
+<?php if (session()->getFlashdata('error')): ?>
+  <div class="alert alert-danger mb-3" role="alert">
+    <?= session()->getFlashdata('error') ?>
+  </div>
+<?php endif; ?>
+<!-- Flash Success -->
 <?php if (session()->getFlashdata('success')): ?>
-  <div class="alert alert-success">
+  <div class="alert alert-success mb-3" role="alert">
     <?= session()->getFlashdata('success') ?>
   </div>
 <?php endif; ?>
 
-<!-- Komentar / Balasan -->
+<!-- Topik Utama -->
+<div class="p-4 rounded-3 shadow-sm mb-4 bg-body">
+  <div class="row">
+    <!-- Kolom Gambar -->
+    <?php if (!empty($diskusi['gambar'])): ?>
+      <div class="col-md-2">
+        <img src="<?= base_url('uploads/forum/' . $diskusi['gambar']) ?>"
+          alt="Gambar Forum"
+          class="img-fluid rounded"
+          style="max-height: 200px; width: auto;">
+      </div>
+    <?php endif; ?>
+
+    <!-- Kolom Konten -->
+    <div class="<?= !empty($diskusi['gambar']) ? 'col-md-8' : 'col-12' ?>">
+      <h3 class="fw-bold mb-2"><?= esc($diskusi['judul']) ?></h3>
+      <p class="text-muted mb-2">
+        <small>
+          Kategori: <?= esc($diskusi['nama_kategori'] ?? $diskusi['kategori']) ?> •
+          Oleh <strong>Anonim</strong> •
+          <?= date('d M Y H:i', strtotime($diskusi['created_at'])) ?>
+        </small>
+      </p>
+      <div class="forum-content mt-3">
+        <?= nl2br(esc($diskusi['isi'])) ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Komentar -->
 <h5 class="fw-semibold mb-3"><?= count($komentar) ?> Balasan</h5>
 
 <div class="list-group mb-5">
@@ -34,7 +58,7 @@
     <?php foreach ($komentar as $komen): ?>
       <div class="list-group-item bg-body-secondary rounded-3 mb-3 border-0">
         <div class="d-flex justify-content-between">
-          <strong><?= esc($komen['username']) ?></strong>
+          <strong><?= esc($komen['username'] ?? 'Anonim') ?></strong>
           <small class="text-muted">
             <?= date('d M Y H:i', strtotime($komen['created_at'])) ?>
           </small>
@@ -50,9 +74,11 @@
 <!-- Form Balasan -->
 <?php if (session()->get('logged_in')): ?>
   <h5 class="fw-semibold">Tulis Balasan</h5>
-  <form action="<?= base_url('forum/comment/' . $diskusi['id']) ?>" method="post" class="mt-3">
+  <form action="<?= base_url('forum/comment/' . $diskusi['id']) ?>" method="post">
+    <?= csrf_field() ?>
     <div class="mb-3">
-      <textarea name="balasan" class="form-control" rows="4" placeholder="Tulis balasan kamu di sini..." required></textarea>
+      <textarea name="balasan" class="form-control" rows="4"
+        placeholder="Tulis balasan kamu di sini..." required></textarea>
     </div>
     <button type="submit" class="btn btn-primary">
       <i class="bi bi-chat-dots"></i> Kirim Balasan

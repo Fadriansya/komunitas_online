@@ -236,3 +236,25 @@
     transition: margin-left 0.3s;
   }
 }
+
+/* Untuk gambar forum */
+.forum-image-container {
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.forum-image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Untuk gambar profil di komentar */
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}

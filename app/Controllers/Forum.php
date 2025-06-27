@@ -46,7 +46,7 @@ class Forum extends BaseController
     public function create()
     {
         if (!session()->get('logged_in')) {
-            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');;
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
         $kategoriModel = new KategoriForumModel();
         return view('forum/create', [
@@ -57,35 +57,53 @@ class Forum extends BaseController
     public function comment($id)
     {
         if (!session()->get('logged_in')) {
-            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');;
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'balasan' => 'required|min_length[3]|max_length[1000]'
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
         }
 
         $komentarModel = new CommentModel();
         $data = [
             'forum_id' => $id,
             'user_id' => session()->get('user_id'),
-            'komentar' => $this->request->getPost('balasan'),
+            'komentar' => $this->request->getPost('balasan')
         ];
-        $komentarModel->insert($data);
 
-        return redirect()->back()->with('success', 'Balasan berhasil dikirim.');
+        try {
+            $komentarModel->insert($data);
+            return redirect()->back()->with('success', 'Balasan berhasil dikirim.');
+        } catch (\Exception $e) {
+            log_message('error', 'Error posting comment: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengirim balasan.');
+        }
     }
 
     public function detail($id)
     {
         $forumModel = new ForumModel();
         $commentModel = new CommentModel();
-        $userModel = new \App\Models\UserModel();
 
-        $diskusi = $forumModel->select('forum.*, users.username')
-            ->join('users', 'users.id = forum.user_id', 'left')
+        // Ambil detail forum (tetap anonim)
+        $diskusi = $forumModel->select('forum.*, kategori_forum.nama_kategori')
+            ->join('kategori_forum', 'kategori_forum.id = forum.kategori', 'left')
             ->where('forum.id', $id)
             ->first();
 
         if (!$diskusi) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Diskusi tidak ditemukan.");
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
+        // Ambil komentar dengan nama user (tanpa avatar)
         $komentar = $commentModel->select('comments.*, users.username')
             ->join('users', 'users.id = comments.user_id', 'left')
             ->where('forum_id', $id)
@@ -93,28 +111,45 @@ class Forum extends BaseController
             ->findAll();
 
         return view('forum/detail', [
-            'diskusi'  => $diskusi,
+            'diskusi' => $diskusi,
             'komentar' => $komentar
         ]);
     }
 
+
     public function balas()
     {
         if (!session()->get('logged_in')) {
-            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu untuk membalas.');
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $commentModel = new \App\Models\CommentModel();
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'topik_id' => 'required|numeric',
+            'balasan' => 'required|min_length[3]|max_length[1000]'
+        ]);
 
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+
+        $commentModel = new CommentModel();
         $data = [
             'forum_id' => $this->request->getPost('topik_id'),
-            'user_id'  => session()->get('user_id'),
-            'komentar' => $this->request->getPost('balasan'),
+            'user_id' => session()->get('user_id'),
+            'komentar' => $this->request->getPost('balasan')
         ];
 
-        $commentModel->save($data);
-
-        return redirect()->to('/forum/detail/' . $data['forum_id'])->with('success', 'Komentar berhasil dikirim.');
+        try {
+            $commentModel->insert($data);
+            return redirect()->to('/forum/detail/' . $data['forum_id'])
+                ->with('success', 'Komentar berhasil dikirim.');
+        } catch (\Exception $e) {
+            log_message('error', 'Error replying: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengirim komentar.');
+        }
     }
 
     public function simpan()
@@ -124,22 +159,36 @@ class Forum extends BaseController
         $validation->setRules([
             'judul' => 'required|min_length[5]',
             'kategori' => 'required',
-            'isi' => 'required|min_length[10]'
+            'isi' => 'required|min_length[10]',
+            'gambar' => 'max_size[gambar,2048]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]'
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
-        // Simpan ke database
-        $forumModel = new \App\Models\ForumModel();
+        // Handle upload gambar
+        $gambarName = null;
+        $gambar = $this->request->getFile('gambar');
 
-        $forumModel->save([
+        if ($gambar && $gambar->isValid() && !$gambar->hasMoved()) {
+            $gambarName = $gambar->getRandomName();
+            $gambar->move(ROOTPATH . 'public/uploads/forum', $gambarName);
+        }
+
+        // Simpan ke database
+        $forumModel = new ForumModel();
+
+        $data = [
             'judul' => $this->request->getPost('judul'),
             'kategori' => $this->request->getPost('kategori'),
             'isi' => $this->request->getPost('isi'),
+            'user_id' => session()->get('user_id'),
+            'gambar' => $gambarName,
             'created_at' => date('Y-m-d H:i:s')
-        ]);
+        ];
+
+        $forumModel->save($data);
 
         return redirect()->to(base_url('forum'))->with('success', 'Topik berhasil dibuat!');
     }

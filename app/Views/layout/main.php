@@ -48,21 +48,7 @@
       <i class="bi bi-sun"></i> Theme
     </button>
 
-    <!-- Notifikasi (Hanya jika login) -->
     <?php if (session()->get('logged_in')): ?>
-      <!-- Tombol Notifikasi -->
-      <!-- <div class="dropdown me-3">
-        <button id="notifBtn" class="btn btn-outline-primary position-relative dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-bell"></i>
-          <span id="notifCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-        </button> -->
-
-      <!-- Dropdown Menu Notifikasi -->
-      <!-- <ul id="notifList" class="dropdown-menu dropdown-menu-end p-0" style="width: 320px; max-height: 400px; overflow-y: auto;">
-          <li class="list-group-item text-center text-muted">Memuat notifikasi...</li>
-        </ul>
-      </div> -->
-
       <!-- Avatar -->
       <a class="nav-item mt-3 text-center" href="<?= base_url('profile') ?>">
         <?php
@@ -89,7 +75,7 @@
         const bsAlert = new bootstrap.Alert(alert);
         bsAlert.close();
       }
-    }, 2000);
+    }, 6000);
   </script>
 
   <script>

@@ -9,9 +9,14 @@
         <?= session()->getFlashdata('error') ?>
       </div>
     <?php endif; ?>
+    <!-- Flash Success -->
+    <?php if (session()->getFlashdata('success')): ?>
+      <div class="alert alert-success mb-3" role="alert">
+        <?= session()->getFlashdata('success') ?>
+      </div>
+    <?php endif; ?>
 
     <h3 class="text-center mb-4">Login</h3>
-
     <form action="<?= base_url('login') ?>" method="post">
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>

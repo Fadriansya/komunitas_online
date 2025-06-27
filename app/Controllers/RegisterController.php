@@ -35,6 +35,7 @@ class RegisterController extends BaseController
       'role'     => 'user',
     ]);
 
-    return redirect()->to('/login')->with('message', 'Registrasi berhasil! Silakan login.');
+    session()->setFlashdata('success', 'Daftar berhasil! Silakan login.');
+    return redirect()->to('/login');
   }
 }
