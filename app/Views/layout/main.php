@@ -36,8 +36,8 @@
     <?php if (session()->get('logged_in')): ?>
       <?php if (session()->get('role') === 'admin'): ?>
         <a href="<?= base_url('dashboard') ?>" class="<?= $segment1 === 'admin' ? 'active' : '' ?>">Dashboard</a>
-        <a href="<?= base_url('game') ?>" target="_blank" class="<?= $segment1 === 'admin' ? 'active' : '' ?>">Games</a>
       <?php endif; ?>
+      <a href="<?= base_url('game') ?>" target="_blank">Games</a>
       <a href="<?= base_url('/logout') ?>">Logout</a>
     <?php else: ?>
       <a href="<?= base_url('/login') ?>" class="<?= $segment1 === 'login' ? 'active' : '' ?>">Login</a>
